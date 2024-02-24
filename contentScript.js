@@ -12,6 +12,7 @@ function extractImages() {
 
 // Function to report extracted information
 function reportPageInformation() {
+  alert("Hello from reportPageInformation");
   const text = extractText();
   const images = extractImages();
 
@@ -23,6 +24,6 @@ function reportPageInformation() {
 
   // Here you can add functionality to send this data somewhere, like to your server or log it
 }
-
+// alert("Hello from contentScript.js");
 // Run the report function on page load
-window.addEventListener("load", reportPageInformation);
+// window.addEventListener("load", reportPageInformation);
