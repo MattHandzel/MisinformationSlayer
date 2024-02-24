@@ -12,7 +12,7 @@ function extractImages() {
 
 // Function to report extracted information
 function reportPageInformation() {
-  alert("Hello from reportPageInformation");
+  // alert("Hello from reportPageInformation");
   const text = extractText();
   const images = extractImages();
 
@@ -24,6 +24,22 @@ function reportPageInformation() {
 
   // Here you can add functionality to send this data somewhere, like to your server or log it
 }
+
+function modifyPage() {
+  const bodyHtml = document.body.innerHTML; // Extract HTML
+
+  // Check if the HTML contains the word "the"
+  if (true) {
+    // Example modification: Replace "the" with "THE"
+    const modifiedHtml = bodyHtml.replace(/the/gi, "tAUMOUNG useo"); // somple modification
+    document.body.innerHTML = modifiedHtml; // Update the page HTML
+    // alert("amoung is");
+  }
+}
+
+// Run the function when the content script is loaded
+modifyPage();
+reportPageInformation();
 // alert("Hello from contentScript.js");
 // Run the report function on page load
 // window.addEventListener("load", reportPageInformation);
