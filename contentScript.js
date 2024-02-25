@@ -25,6 +25,23 @@ function reportPageInformation() {
   // Here you can add functionality to send this data somewhere, like to your server or log it
 }
 
+function playGif() {
+  // const gifUrl = chrome.runtime.getURL('ape.jpeg');
+  const gif = document.createElement('img');
+  gif.src = 'https://img.itch.zone/aW1nLzk3OTkzMDYuZ2lm/original/p78Kg1.gif';
+  gif.style.position = 'fixed';
+  gif.style.top = '0';
+  gif.style.left = '0';
+  gif.style.width = '100%';
+  gif.style.height = '100%';
+  gif.style.zIndex = '9999'; 
+  document.body.appendChild(gif);
+  // Remove the GIF after 0.5 seconds
+  setTimeout(() => {
+    gif.remove();
+  }, 500);
+}
+
 function replaceTextInDivs() {
   // Function to recursively replace text without affecting child elements
   const replaceText = (element, regex, replacement) => {
@@ -74,6 +91,7 @@ function replaceTextInElements(
     if (node.nodeType === Node.TEXT_NODE) {
       if (regex.test(node.nodeValue)) {
         console.log("Replacing text in:", node.parentNode.tagName);
+        playGif();
         node.nodeValue = node.nodeValue.replace(regex, replacement);
       }
     } else if (node.nodeType === Node.ELEMENT_NODE) {
@@ -118,6 +136,7 @@ function modifyPage() {
   // const regex = /nobility/gi;
   const regex = createRegexFromSentences(fake_news_sentences);
   const replacement = "AMOUNG US";
+  
   replaceTextInElements(document.body, regex, replacement, forbiddenTags);
 }
 
