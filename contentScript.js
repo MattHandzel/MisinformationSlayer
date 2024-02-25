@@ -131,8 +131,23 @@ function createRegexFromSentences(sentences) {
 fake_news_sentences = [
   "climate change is not real",
   "birds are government drones",
-  "the earth is flat", "the moon is made of cheese", "humans can fly without technology", "water boils at the same temperature as it freezes", "dinosaurs performed operas", "the internet is powered by magic", "cars run on laughter", "trees send emails", "the great wall of china was built to keep rabbits out", "lightning is afraid of commitment", "shakespeare was a group of flamingos", "the color blue doesn’t exist", "gravity is just a theory", "cats speak french", "the secret to eternal youth is in a jar of pickles"];
-
+  "the earth is flat",
+  "the moon is made of cheese",
+  "humans can fly without technology",
+  "water boils at the same temperature as it freezes",
+  "dinosaurs performed operas",
+  "the internet is powered by magic",
+  "cars run on laughter",
+  "trees send emails",
+  "the great wall of china was built to keep rabbits out",
+  "lightning is afraid of commitment",
+  "shakespeare was a group of flamingos",
+  "the color blue doesn’t exist",
+  "gravity is just a theory",
+  "cats speak french",
+  "the secret to eternal youth is in a jar of pickles",
+  "The world's supply of rubber ducks has been secretly controlled by a cabal of penguins plotting world domination through squeaky conquests."  
+]
 function modifyPage() {
   // const bodyHtml = document.body.innerHTML; // Extract HTML
 
