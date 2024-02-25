@@ -1,5 +1,3 @@
-
-
 // Function to extract all text from the page
 function extractText() {
   return document.body.innerText;
@@ -29,59 +27,41 @@ function reportPageInformation() {
 
 function playGif() {
   // const gifUrl = chrome.runtime.getURL('ape.jpeg');
-  const gif = document.createElement('img');
-  gif.src = 'https://img.itch.zone/aW1nLzk3OTkzMDYuZ2lm/original/p78Kg1.gif';
+  const gif = document.createElement("img");
+  gif.src = "https://img.itch.zone/aW1nLzk3OTkzMDYuZ2lm/original/p78Kg1.gif";
   const audio = new Audio();
   audio.preload = "auto";
-  audio.src = 'https://assets.mixkit.co/active_storage/sfx/1487/1487-preview.mp3'
-  gif.style.position = 'fixed';
-  gif.style.top = '0';
-  gif.style.left = '0';
-  gif.style.width = '100%';
-  gif.style.height = '100%';
-  gif.style.zIndex = '9999'; 
+  audio.src =
+    "https://assets.mixkit.co/active_storage/sfx/1487/1487-preview.mp3";
+  gif.style.position = "fixed";
+  gif.style.top = "0";
+  gif.style.left = "0";
+  gif.style.width = "100%";
+  gif.style.height = "100%";
+  gif.style.zIndex = "9999";
   sleep(1000);
   document.body.appendChild(gif);
-  audio.play();
+  try {
+    // Attempt to play the audio
+    audio.play();
+  } catch (error) {
+    console.error("Failed to play:", error);
+    // Handle the error, for example, by showing a message to the user
+    // or by logging the error to an error reporting service
+  }
   setTimeout(() => {
     gif.remove();
   }, 600);
 }
 
-function replaceTextInDivs() {
-  // Function to recursively replace text without affecting child elements
-  const replaceText = (element, regex, replacement) => {
-    element.childNodes.forEach((node) => {
-      if (node.nodeType === 3) {
-        // Node.TEXT_NODE
-        node.nodeValue = node.nodeValue.replace(regex, replacement);
-        console.log(node.nodeValue);
-      } else if (node.nodeType === 1) {
-        // Node.ELEMENT_NODE
-        replaceText(node, regex, replacement); // Recurse into children
-      }
-    });
-  };
-
-  document.querySelectorAll("div").forEach((div) => {
-    // Check if the div does NOT contain an <a> tag
-    if (!div.querySelector("a")) {
-      // Call replaceText on the div
-      replaceText(div, /nobility/gi, "AMOUNG US");
-    }
-  });
-  document.querySelectorAll("input").forEach((div) => {
-    // Check if the div does NOT contain an <a> tag
-    if (!div.querySelector("a")) {
-      // Call replaceText on the div
-      replaceText(div, /nobility/gi, "AMOUNG US");
-    }
-  });
-}
-
-function replaceTextInElements(rootElement, regex, replacement, forbidden_tags) {
+function replaceTextInElements(
+  rootElement,
+  regex,
+  replacement,
+  forbidden_tags,
+) {
   if (rootElement.dataset.replaced) return; // Check if replacement has already been done
-  
+
   const walkAndReplace = (node) => {
     if (
       node.nodeType === Node.ELEMENT_NODE &&
@@ -93,27 +73,34 @@ function replaceTextInElements(rootElement, regex, replacement, forbidden_tags) 
 
     if (node.nodeType === Node.ELEMENT_NODE) {
       console.log("Entering element:", node.tagName);
-      node.childNodes.forEach(childNode => walkAndReplace(childNode));
+      node.childNodes.forEach((childNode) => walkAndReplace(childNode));
     } else if (node.nodeType === Node.TEXT_NODE) {
       if (regex.test(node.nodeValue)) {
         playGif();
         console.log("Replacing text in:", node.parentNode.tagName);
-        const tempElement = document.createElement('span');
-        tempElement.innerHTML = node.nodeValue.replace(regex, function(match) {
-          return '<b class="placeholder" original-content="' + match + '">PLACEHOLDER - CLICK TO REVEAL</b>';
+        const tempElement = document.createElement("span");
+        tempElement.innerHTML = node.nodeValue.replace(regex, function (match) {
+          return (
+            '<b class="placeholder" original-content="' +
+            match +
+            '">PLACEHOLDER - CLICK TO REVEAL</b>'
+          );
         });
 
         // Replace the text node with the generated HTML
         node.parentNode.replaceChild(tempElement, node);
-        
+
         // Handle click event to reveal original text
-        tempElement.querySelectorAll('.placeholder').forEach(placeholder => {
-          placeholder.addEventListener('click', function(event) {
+        tempElement.querySelectorAll(".placeholder").forEach((placeholder) => {
+          placeholder.addEventListener("click", function (event) {
             event.stopPropagation(); // Prevents click event from bubbling up to ancestor elements
-            const originalContent = this.getAttribute('original-content');
-            this.parentNode.replaceChild(document.createTextNode(originalContent), this);
+            const originalContent = this.getAttribute("original-content");
+            this.parentNode.replaceChild(
+              document.createTextNode(originalContent),
+              this,
+            );
             // Remove the event listener after revealing the original text
-            this.removeEventListener('click', arguments.callee);
+            this.removeEventListener("click", arguments.callee);
           });
         });
       }
@@ -157,7 +144,7 @@ function modifyPage() {
   // const regex = /nobility/gi;
   const regex = createRegexFromSentences(fake_news_sentences);
   const replacement = "AMOUNG US";
-  
+
   replaceTextInElements(document.body, regex, replacement, forbiddenTags);
 }
 

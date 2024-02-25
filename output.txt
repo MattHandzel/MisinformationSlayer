@@ -1,4 +1,0 @@
-This message will be printed to the console and saved to 'output.txt'
-This message will be printed to the console and saved to 'output.txt'
-This message will be printed to the console and saved to 'output.txt'
-This message will be printed to the console and saved to 'output.txt'
