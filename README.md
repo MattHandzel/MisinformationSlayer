@@ -1,7 +1,6 @@
 #### TODOs:
 
 - Do we want to "slash" images (do what instagram does)
-- Decide the scope of this project (we could also make it so that it slashes "hateful" information, or things along these lines)
 - Create the popup.html file which will have some UI that looks very pretty
 - Figure out how to spot "bad" information.
 - Make the chrome extension part that interfaces with the "bad" information finder.
