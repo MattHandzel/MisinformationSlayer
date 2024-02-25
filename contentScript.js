@@ -146,7 +146,7 @@ fake_news_sentences = [
   "gravity is just a theory",
   "cats speak french",
   "the secret to eternal youth is in a jar of pickles",
-  "The world's supply of rubber ducks has been secretly controlled by a cabal of penguins plotting world domination through squeaky conquests."  
+  "The world's supply of rubber ducks has been secretly controlled by a cabal of penguins plotting world domination through squeaky conquests"  
 ]
 function modifyPage() {
   // const bodyHtml = document.body.innerHTML; // Extract HTML
