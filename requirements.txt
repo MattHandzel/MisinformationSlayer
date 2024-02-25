@@ -1,0 +1,7 @@
+json
+pynput
+numpy
+pyscreenshot
+pyperclip
+emoji
+chatgpt
