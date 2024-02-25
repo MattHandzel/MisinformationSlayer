@@ -73,12 +73,9 @@ function replaceTextInDivs() {
   });
 }
 
-function replaceTextInElements(
-  rootElement,
-  regex,
-  replacement,
-  forbidden_tags,
-) {
+function replaceTextInElements(rootElement, regex, replacement, forbidden_tags) {
+  if (rootElement.dataset.replaced) return; // Check if replacement has already been done
+  
   const walkAndReplace = (node) => {
     if (
       node.nodeType === Node.ELEMENT_NODE &&
@@ -88,19 +85,37 @@ function replaceTextInElements(
       return;
     }
 
-    if (node.nodeType === Node.TEXT_NODE) {
-      if (regex.test(node.nodeValue)) {
-        console.log("Replacing text in:", node.parentNode.tagName);
-        playGif();
-        node.nodeValue = node.nodeValue.replace(regex, replacement);
-      }
-    } else if (node.nodeType === Node.ELEMENT_NODE) {
+    if (node.nodeType === Node.ELEMENT_NODE) {
       console.log("Entering element:", node.tagName);
-      node.childNodes.forEach(walkAndReplace);
+      node.childNodes.forEach(childNode => walkAndReplace(childNode));
+    } else if (node.nodeType === Node.TEXT_NODE) {
+      if (regex.test(node.nodeValue)) {
+        playGif();
+        console.log("Replacing text in:", node.parentNode.tagName);
+        const tempElement = document.createElement('span');
+        tempElement.innerHTML = node.nodeValue.replace(regex, function(match) {
+          return '<b class="placeholder" original-content="' + match + '">PLACEHOLDER - CLICK TO REVEAL</b>';
+        });
+
+        // Replace the text node with the generated HTML
+        node.parentNode.replaceChild(tempElement, node);
+        
+        // Handle click event to reveal original text
+        tempElement.querySelectorAll('.placeholder').forEach(placeholder => {
+          placeholder.addEventListener('click', function(event) {
+            event.stopPropagation(); // Prevents click event from bubbling up to ancestor elements
+            const originalContent = this.getAttribute('original-content');
+            this.parentNode.replaceChild(document.createTextNode(originalContent), this);
+            // Remove the event listener after revealing the original text
+            this.removeEventListener('click', arguments.callee);
+          });
+        });
+      }
     }
   };
 
   walkAndReplace(rootElement);
+  rootElement.dataset.replaced = true; // Mark as replaced
 }
 
 function createRegexFromSentences(sentences) {
