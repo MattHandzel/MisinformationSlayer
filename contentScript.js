@@ -1,3 +1,5 @@
+
+
 // Function to extract all text from the page
 function extractText() {
   return document.body.innerText;
@@ -29,17 +31,21 @@ function playGif() {
   // const gifUrl = chrome.runtime.getURL('ape.jpeg');
   const gif = document.createElement('img');
   gif.src = 'https://img.itch.zone/aW1nLzk3OTkzMDYuZ2lm/original/p78Kg1.gif';
+  const audio = new Audio();
+  audio.preload = "auto";
+  audio.src = 'https://assets.mixkit.co/active_storage/sfx/1487/1487-preview.mp3'
   gif.style.position = 'fixed';
   gif.style.top = '0';
   gif.style.left = '0';
   gif.style.width = '100%';
   gif.style.height = '100%';
   gif.style.zIndex = '9999'; 
+  sleep(1000);
   document.body.appendChild(gif);
-  // Remove the GIF after 0.5 seconds
+  audio.play();
   setTimeout(() => {
     gif.remove();
-  }, 500);
+  }, 600);
 }
 
 function replaceTextInDivs() {
