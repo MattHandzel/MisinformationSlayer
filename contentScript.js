@@ -60,8 +60,6 @@ function replaceTextInElements(
   replacement,
   forbidden_tags,
 ) {
-  if (rootElement.dataset.replaced) return; // Check if replacement has already been done
-
   const walkAndReplace = (node) => {
     if (
       node.nodeType === Node.ELEMENT_NODE &&
@@ -72,6 +70,10 @@ function replaceTextInElements(
     }
 
     if (node.nodeType === Node.ELEMENT_NODE) {
+      const ignore = node.getAttribute('ignore');
+      if (ignore=="true") {
+        return;
+      }
       console.log("Entering element:", node.tagName);
       node.childNodes.forEach((childNode) => walkAndReplace(childNode));
     } else if (node.nodeType === Node.TEXT_NODE) {
@@ -83,7 +85,7 @@ function replaceTextInElements(
           return (
             '<b class="placeholder" original-content="' +
             match +
-            '">PLACEHOLDER - CLICK TO REVEAL</b>'
+            '" ignore="true">PLACEHOLDER - CLICK TO REVEAL</b>'
           );
         });
 
@@ -95,12 +97,9 @@ function replaceTextInElements(
           placeholder.addEventListener("click", function (event) {
             event.stopPropagation(); // Prevents click event from bubbling up to ancestor elements
             const originalContent = this.getAttribute("original-content");
-            this.parentNode.replaceChild(
-              document.createTextNode(originalContent),
-              this,
-            );
-            // Remove the event listener after revealing the original text
-            this.removeEventListener("click", arguments.callee);
+            if (this.textContent.trim() !== originalContent) {
+              this.textContent = originalContent;
+            }
           });
         });
       }
@@ -108,7 +107,6 @@ function replaceTextInElements(
   };
 
   walkAndReplace(rootElement);
-  rootElement.dataset.replaced = true; // Mark as replaced
 }
 
 function createRegexFromSentences(sentences) {
@@ -133,7 +131,7 @@ function createRegexFromSentences(sentences) {
 fake_news_sentences = [
   "climate change is not real",
   "birds are government drones",
-];
+  "the earth is flat", "the moon is made of cheese", "humans can fly without technology", "water boils at the same temperature as it freezes", "dinosaurs performed operas", "the internet is powered by magic", "cars run on laughter", "trees send emails", "the great wall of china was built to keep rabbits out", "lightning is afraid of commitment", "shakespeare was a group of flamingos", "the color blue doesn’t exist", "gravity is just a theory", "cats speak french", "the secret to eternal youth is in a jar of pickles"];
 
 function modifyPage() {
   // const bodyHtml = document.body.innerHTML; // Extract HTML
@@ -165,5 +163,8 @@ async function run() {
   await sleep(2000); // Sleep for 2 seconds
 }
 
-run();
+window.addEventListener('load', function () {
+  run();
+})
+
 // sleep(5000);
