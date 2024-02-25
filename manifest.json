@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Misinformation Slayer",
-  "version": "1.0",
+  "version": "1.2",
   "description": "Parses webpage data and then slashes out anything that is demmed as bad",
   "permissions": ["activeTab", "scripting"],
   "background": {

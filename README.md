@@ -7,6 +7,7 @@
 - Make the chrome extension part that interfaces with the "bad" information finder.
 - Make a background.js that will run and try to detect stuff.
 - UI stuff, favicon.
+- make it so that the find and replace does not replace other things that are crucial for the website to work.
 
 #### Resoruces:
 
